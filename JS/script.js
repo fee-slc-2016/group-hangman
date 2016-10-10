@@ -14,23 +14,32 @@ function createStatus (answer_string) {
   }
   return status_array;
 }
-console.log(status);
 
 function updateStatus (answer_string, status_array, guess_char) {
   // compare answer_string with guess_char then output and updated status_array.
-
+  let isFound = false;
   for (let i = 0; i < answer_string.length; i++) {
     if (guess_char === answer_string[i]) {
       status_array[i] = guess_char;
+      isFound = true;
     }
   }
-  return status_array;
+  return {status: status_array, found: isFound};
 }
 
 function makeGuess (){
-  let guess = prompt ('What character would you like to try next?');
-  // TODO: Make status more functional.
-  status = updateStatus(answer, status, guess);
+  let guess;
+  let guessFeedbackObj;
+  for (let i = 0; i < 3 ; i++) {
+    guess = prompt ('What character would you like to try next?');
+
+    // TODO: Make status more functional.
+
+    guessFeedbackObj = updateStatus(answer, status, guess);
+    status = guessFeedbackObj.status;
+    console.log(status);
+  }
+
 }
 
 makeGuess();
