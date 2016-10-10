@@ -31,11 +31,9 @@ function updateMessage (guessFeedbackObj){
   if (guessFeedbackObj === undefined){
     return "yo what up!\nLet's play hangman\nPlease insert a letter.\n" + status.join(" ");
   }
-
   if (guessFeedbackObj.found === false){
     return "oooopppsssiiieeesss\ntry again.\nyour current status is\n" + guessFeedbackObj.status.join(" ");
   }
-
   if (guessFeedbackObj.found === true){
     return "Awesome\ntry again.\nyour current status is\n" + guessFeedbackObj.status.join(" ");
   }
@@ -51,9 +49,14 @@ function makeGuess (){
 
     guessFeedbackObj = updateStatus(answer, status, guess);
     status = guessFeedbackObj.status;
+    if (guessFeedbackObj.found) {
+      if (guessFeedbackObj.status.join('') === answer) {
+        alert ("Wow, you're something special, because you just won this game!");
+        return true;
+      }
+    }
     console.log(status);
   }
-
 }
 
 makeGuess();
