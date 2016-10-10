@@ -27,11 +27,25 @@ function updateStatus (answer_string, status_array, guess_char) {
   return {status: status_array, found: isFound};
 }
 
+function updateMessage (guessFeedbackObj){
+  if (guessFeedbackObj === undefined){
+    return "yo what up!\nLet's play hangman\nPlease insert a letter.\n" + status.join(" ");
+  }
+
+  if (guessFeedbackObj.found === false){
+    return "oooopppsssiiieeesss\ntry again.\nyour current status is\n" + guessFeedbackObj.status.join(" ");
+  }
+
+  if (guessFeedbackObj.found === true){
+    return "Awesome\ntry again.\nyour current status is\n" + guessFeedbackObj.status.join(" ");
+  }
+}
+
 function makeGuess (){
   let guess;
   let guessFeedbackObj;
-  for (let i = 0; i < 3 ; i++) {
-    guess = prompt ('What character would you like to try next?');
+  for (let i = 0; i < 5 ; i++) {
+    guess = prompt (updateMessage(guessFeedbackObj));
 
     // TODO: Make status more functional.
 
