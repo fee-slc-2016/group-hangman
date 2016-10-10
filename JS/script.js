@@ -2,8 +2,6 @@
 
 console.log('cheese and puppies');
 
-let guess = prompt ('What character would you like to try next?');
-
 // We are using 'cheese' as the answer and 'e' as the guess for now.
 
 let answer = "cheese";
@@ -29,4 +27,10 @@ function updateStatus (answer_string, status_array, guess_char) {
   return status_array;
 }
 
-console.log(updateStatus(answer, status, guess));
+function makeGuess (){
+  let guess = prompt ('What character would you like to try next?');
+  // TODO: Make status more functional.
+  status = updateStatus(answer, status, guess);
+}
+
+makeGuess();
