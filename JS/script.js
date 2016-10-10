@@ -4,8 +4,10 @@ console.log('cheese and puppies');
 
 // We are using 'cheese' as the answer and 'e' as the guess for now.
 
-let answer = "cheese";
-let status = createStatus(answer);
+let hangman_config = {};
+hangman_config.answer = "cheese";
+hangman_config.status = createStatus(hangman_config.answer);
+hangman_config.tries = 8;
 
 
 function createStatus (answer_string) {
@@ -28,42 +30,42 @@ function updateStatus (answer_string, status_array, guess_char) {
   return {status: status_array, found: isFound};
 }
 
-function updateMessage (guessFeedbackObj){
-  if (guessFeedbackObj === undefined){
+function updateMessage (hangman){
+  if (hangman === undefined){
     // TODO no magic numbers!
-    return "yo what up!\nLet's play hangman\nYou have " + 8 + " tries.\nPlease insert a letter.\n" + status.join(" ");
+    return "yo what up!\nLet's play hangman\nYou have " + hangman_config.tries + " tries.\nPlease insert a letter.\n" + hangman_config.status.join(" ");
   }
-  if (guessFeedbackObj.found === false){
-    return "oooopppsssiiieeesss\nYou have " + guessFeedbackObj.tries + " tries remaining.\nPlease try again.\nYour current status is\n" + guessFeedbackObj.status.join(" ");
+  if (hangman.found === false){
+    return "oooopppsssiiieeesss\nYou have " + hangman.tries + " tries remaining.\nPlease try again.\nYour current status is\n" + hangman.status.join(" ");
   }
-  if (guessFeedbackObj.found === true){
-    return "Awesome\ntry again.\nYou have " + guessFeedbackObj.tries + " tries remaining.\nyour current status is\n" + guessFeedbackObj.status.join(" ");
+  if (hangman.found === true){
+    return "Awesome\ntry again.\nYou have " + hangman.tries + " tries remaining.\nyour current status is\n" + hangman.status.join(" ");
   }
 }
 
 function makeGuess (){
   let guess;
-  let guessFeedbackObj;
-  let tries = 8;
+  let hangman;
+  let tries = hangman_config.tries;
   while (tries) {
-    guess = prompt (updateMessage(guessFeedbackObj));
+    guess = prompt (updateMessage(hangman));
 
     // TODO: Make status more functional.
 
-    guessFeedbackObj = updateStatus(answer, status, guess);
-    status = guessFeedbackObj.status;
-    guessFeedbackObj.tries = guessFeedbackObj.tries || tries;
-    if (guessFeedbackObj.found) {
-      if (guessFeedbackObj.status.join('') === answer) {
+    hangman = updateStatus(hangman_config.answer, hangman_config.status, guess);
+    hangman_config.status = hangman.status;
+    hangman.tries = hangman.tries || tries;
+    if (hangman.found) {
+      if (hangman.status.join('') === hangman_config.answer) {
         alert ("Wow, you're something special, because you just won this game!");
         return true;
       }
     }
     else {
       tries--; // Only decreases with incorrect letters.
-      guessFeedbackObj.tries = tries;
+      hangman.tries = tries;
     }
-    console.log(status);
+    console.log(hangman_config.status);
   }
 }
 
