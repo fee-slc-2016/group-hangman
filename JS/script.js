@@ -2,17 +2,12 @@
 
 console.log('cheese and puppies');
 
-let char = prompt ('What character would you like to try next?');
-
- // Note that the console.log below uses two parameters.  By default it will autopopulate the space between the two.  This is only if they are both strings.
-
-console.log('the player is trying', char);
+let guess = prompt ('What character would you like to try next?');
 
 // We are using 'cheese' as the answer and 'e' as the guess for now.
 
 let answer = "cheese";
 let status = createStatus(answer);
-let guess = "e";
 
 function createStatus (answer_string) {
   let status_array = [];
@@ -22,3 +17,16 @@ function createStatus (answer_string) {
   return status_array;
 }
 console.log(status);
+
+function updateStatus (answer_string, status_array, guess_char) {
+  // compare answer_string with guess_char then output and updated status_array.
+
+  for (let i = 0; i < answer_string.length; i++) {
+    if (guess_char === answer_string[i]) {
+      status_array[i] = guess_char;
+    }
+  }
+  return status_array;
+}
+
+console.log(updateStatus(answer, status, guess));
