@@ -7,6 +7,7 @@ console.log('cheese and puppies');
 let answer = "cheese";
 let status = createStatus(answer);
 
+
 function createStatus (answer_string) {
   let status_array = [];
   for (let i = 0; i < answer_string.length; i++) {
@@ -29,31 +30,38 @@ function updateStatus (answer_string, status_array, guess_char) {
 
 function updateMessage (guessFeedbackObj){
   if (guessFeedbackObj === undefined){
-    return "yo what up!\nLet's play hangman\nPlease insert a letter.\n" + status.join(" ");
+    // TODO no magic numbers!
+    return "yo what up!\nLet's play hangman\nYou have " + 8 + " tries.\nPlease insert a letter.\n" + status.join(" ");
   }
   if (guessFeedbackObj.found === false){
-    return "oooopppsssiiieeesss\ntry again.\nyour current status is\n" + guessFeedbackObj.status.join(" ");
+    return "oooopppsssiiieeesss\nYou have " + guessFeedbackObj.tries + " tries remaining.\nPlease try again.\nYour current status is\n" + guessFeedbackObj.status.join(" ");
   }
   if (guessFeedbackObj.found === true){
-    return "Awesome\ntry again.\nyour current status is\n" + guessFeedbackObj.status.join(" ");
+    return "Awesome\ntry again.\nYou have " + guessFeedbackObj.tries + " tries remaining.\nyour current status is\n" + guessFeedbackObj.status.join(" ");
   }
 }
 
 function makeGuess (){
   let guess;
   let guessFeedbackObj;
-  for (let i = 0; i < 5 ; i++) {
+  let tries = 8;
+  while (tries) {
     guess = prompt (updateMessage(guessFeedbackObj));
 
     // TODO: Make status more functional.
 
     guessFeedbackObj = updateStatus(answer, status, guess);
     status = guessFeedbackObj.status;
+    guessFeedbackObj.tries = guessFeedbackObj.tries || tries;
     if (guessFeedbackObj.found) {
       if (guessFeedbackObj.status.join('') === answer) {
         alert ("Wow, you're something special, because you just won this game!");
         return true;
       }
+    }
+    else {
+      tries--; // Only decreases with incorrect letters.
+      guessFeedbackObj.tries = tries;
     }
     console.log(status);
   }
