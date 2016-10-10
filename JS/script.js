@@ -64,6 +64,9 @@ function makeGuess (){
     else {
       tries--; // Only decreases with incorrect letters.
       hangman.tries = tries;
+      if (tries === 0) {
+        alert ("Oh no, you will never get those 10 mins back.");
+      }
     }
     console.log(hangman_config.status);
   }
