@@ -36,10 +36,10 @@ function updateMessage (hangman){
     return "yo what up!\nLet's play hangman\nYou have " + hangman_config.tries + " tries.\nPlease insert a letter.\n" + hangman_config.status.join(" ");
   }
   if (hangman.found === false){
-    return "oooopppsssiiieeesss\nYou have " + hangman.tries + " tries remaining.\nPlease try again.\nYour current status is\n" + hangman.status.join(" ") + "\nLetters guessed: " //+ hangman.guessed.join(" ");
+    return "oooopppsssiiieeesss\nYou have " + hangman.tries + " tries remaining.\nPlease try again.\nYour current status is\n" + hangman.status.join(" ") + "\nLetters guessed: " + hangman_config.guessed.join(" ");
   }
   if (hangman.found === true){
-    return "Awesome\ntry again.\nYou have " + hangman.tries + " tries remaining.\nyour current status is\n" + hangman.status.join(" ") + "\nLetters guessed: " //+ hangman.guessed.join(" ");
+    return "Awesome\ntry again.\nYou have " + hangman.tries + " tries remaining.\nyour current status is\n" + hangman.status.join(" ") + "\nLetters guessed: " + hangman_config.guessed.join(" ");
   }
 }
 
@@ -48,13 +48,13 @@ function makeGuess (){
   let tries = hangman_config.tries;
   let hangman = {};
 
-  hangman.guessed = [""];
+  hangman_config.guessed = [""];
   hangman.tries = hangman_config.tries;
   hangman.status = [];
   while (tries) {
     guess = prompt(updateMessage(hangman));
-    hangman.guessed.push(guess);
-    hangman.guessed.sort();
+    hangman_config.guessed.push(guess);
+    hangman_config.guessed.sort();
     // TODO: Make status more functional.
 
     hangman = updateStatus(hangman_config.answer, hangman_config.status, guess);
