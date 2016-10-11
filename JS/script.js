@@ -1,13 +1,11 @@
 "use strict";
 
-console.log('cheese and puppies');
+console.log('cheese and puppies'); // TODO: remove after functioning
 
-// We are using 'cheese' as the answer and 'e' as the guess for now.
-
-let hangman_config = {};
-hangman_config.answer = "cheese";
-hangman_config.status = createStatus(hangman_config.answer);
-hangman_config.tries = 8;
+let hangman_config = {}; // TODO: remove from global
+hangman_config.answer = "cheese"; // TODO: randomize
+hangman_config.status = createStatus(hangman_config.answer); // TODO: remove from global
+hangman_config.tries = 8; // TODO: remove from global
 
 function createStatus (answer_string) {
   let status_array = [];
@@ -17,33 +15,24 @@ function createStatus (answer_string) {
   return status_array;
 }
 
-function updateStatus (hangman, guess_char) {
+function updateStatus (answer, status, guess_char) {
   // compare answer_string with guess_char then output and updated status_array.
   let isFound = false;
-  for (let i = 0; i < hangman.answer.length; i++) {
-    if (guess_char === hangman.answer[i]) {
-      hangman.status[i] = guess_char;
+  for (let i = 0; i < answer.length; i++) {
+    if (guess_char === answer[i]) {
+      status[i] = guess_char;
       isFound = true;
     }
   }
-  hangman.found = isFound;
-  return hangman;
+  return {status: status, found: isFound};
 }
 
-function updateMessage (hangman){
-  console.log("hangman" + hangman);
-  if (hangman.found === undefined){
-    return "yo what up!\nLet's play hangman\nYou have " + hangman_config.tries + " tries.\nPlease insert a letter.\n" + hangman_config.status.join(" ");
+function updateMessage (found, status, tries, guessed){
+  if (found === false){
+    return "oooopppsssiiieeesss\nYou have " + tries + " tries remaining.\nPlease try again.\nYour current status is\n" + status.join(" ") + "\nLetters guessed: " + guessed.join(" ");
   }
-  if (hangman.found === false){
-    console.log("hangman" + hangman);
-
-    return "oooopppsssiiieeesss\nYou have " + hangman.tries + " tries remaining.\nPlease try again.\nYour current status is\n" + hangman.status.join(" ") + "\nLetters guessed: " + hangman.guessed.join(" ");
-  }
-  if (hangman.found === true){
-    console.log("hangman" + hangman);
-
-    return "Awesome\ntry again.\nYou have " + hangman.tries + " tries remaining.\nyour current status is\n" + hangman.status.join(" ") + "\nLetters guessed: " + hangman.guessed.join(" ");
+  if (found === true){
+    return "Awesome\ntry again.\nYou have " + tries + " tries remaining.\nyour current status is\n" + status.join(" ") + "\nLetters guessed: " + guessed.join(" ");
   }
 }
 
@@ -51,46 +40,35 @@ function makeGuess (){
   let guess;
   let tries = hangman_config.tries;
   let hangman = {};
-
-  hangman.guessed = [];
-  hangman.tries = hangman_config.tries;
-  hangman.status = hangman_config.status;
-  hangman.answer = hangman_config.answer;
-  hangman.found = false;
+  let guess_status = hangman_config.status;
+  let found;
+  let guessed = [];
+  let answer = hangman_config.answer;
+  let msg = "yo what up!\nLet's play hangman\nYou have " + tries + " tries.\nPlease insert a letter.\n" + guess_status.join(" ");
 
   while (tries) {
-    guess = prompt(updateMessage(hangman));
-    console.log("hangman: " + hangman);
+    guess = prompt(msg);
 
+    guessed.push(guess);
 
-    hangman.guessed.push(guess);
-    console.log("hangman.guessed(pushed): " + hangman.guessed);
+    guessed.sort();
 
-    hangman.guessed.sort();
-    console.log("hangman.guessed(sorted): " + hangman.guessed);
-``
-    // TODO: Make status more functional.
+    let {status, found} = updateStatus(answer, guess_status, guess);
 
-    hangman = updateStatus(hangman, guess);
-    console.log("hangman.guessed(post updateStatus): " + hangman.guessed);
-
-
-    hangman_config.status = hangman.status;
-    hangman.tries = hangman.tries || tries;
-    if (hangman.found) {
-      if (hangman.status.join('') === hangman_config.answer) {
+    if (found) {
+      if (status.join('') === hangman_config.answer) {
         alert ("Wow, you're something special, because you just won this game!");
         return true;
       }
     }
     else {
       tries--; // Only decreases with incorrect letters.
-      hangman.tries = tries;
       if (tries === 0) {
         alert ("Oh no, you will never get those 10 mins back.");
       }
     }
-    console.log("hangman_config.status" + hangman_config.status);
+    // updateMessage (found, status, tries, guessed)
+    msg = updateMessage(found, guess_status, tries, guessed);
   }
 }
 
