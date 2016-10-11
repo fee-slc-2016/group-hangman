@@ -8,6 +8,7 @@ let hangman_config = {};
 hangman_config.answer = "cheese";
 hangman_config.status = createStatus(hangman_config.answer);
 hangman_config.tries = 8;
+hangman_config.guessed = [];
 
 
 function createStatus (answer_string) {
@@ -48,7 +49,6 @@ function makeGuess (){
   let tries = hangman_config.tries;
   let hangman = {};
 
-  hangman_config.guessed = [""];
   hangman.tries = hangman_config.tries;
   hangman.status = [];
   while (tries) {
