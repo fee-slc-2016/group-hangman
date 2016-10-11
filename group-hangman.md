@@ -1,2 +1,0 @@
-- Make status more functional. __TODO__ [JS/script.js](JS/script.js)
-- no magic numbers! __TODO__ [JS/script.js](JS/script.js)
