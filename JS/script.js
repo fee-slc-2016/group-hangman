@@ -1,11 +1,12 @@
 "use strict";
-
+( function () {
 console.log('cheese and puppies'); // TODO: remove after functioning
 
-let hangman_config = {}; // TODO: remove from global
-hangman_config.answer = "cheese"; // TODO: randomize
-hangman_config.status = createStatus(hangman_config.answer); // TODO: remove from global
-hangman_config.tries = 8; // TODO: remove from global
+let tries = 8; // TODO: remove from global
+
+function getAnswer (list) {
+  return "cheese" // TODO: make function
+}
 
 function createStatus (answer_string) {
   let status_array = [];
@@ -38,25 +39,23 @@ function updateMessage (found, status, tries, guessed){
 
 function makeGuess (){
   let guess;
-  let tries = hangman_config.tries;
-  let hangman = {};
-  let guess_status = hangman_config.status;
+  let answer = getAnswer();
+  let guess_status = createStatus(answer);
   let found;
   let guessed = [];
-  let answer = hangman_config.answer;
+
   let msg = "yo what up!\nLet's play hangman\nYou have " + tries + " tries.\nPlease insert a letter.\n" + guess_status.join(" ");
 
   while (tries) {
     guess = prompt(msg);
 
     guessed.push(guess);
-
     guessed.sort();
 
     let {status, found} = updateStatus(answer, guess_status, guess);
 
     if (found) {
-      if (status.join('') === hangman_config.answer) {
+      if (status.join('') === answer) {
         alert ("Wow, you're something special, because you just won this game!");
         return true;
       }
@@ -73,3 +72,5 @@ function makeGuess (){
 }
 
 makeGuess();
+
+})();
