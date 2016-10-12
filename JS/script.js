@@ -37,6 +37,10 @@ function updateMessage (found, status, tries, guessed){
   }
 }
 
+function setMessage (msg) {
+  document.querySelector('.message').innerHTML = msg;
+}
+
 function makeGuess (){
   let guess;
   let answer = getAnswer();
@@ -47,7 +51,8 @@ function makeGuess (){
   let msg = "yo what up!\nLet's play hangman\nYou have " + tries + " tries.\nPlease insert a letter.\n" + guess_status.join(" ");
 
   while (tries) {
-    guess = prompt(msg);
+    // guess = prompt(msg);
+    setMessage(msg);
 
     guessed.push(guess);
     guessed.sort();
@@ -56,14 +61,14 @@ function makeGuess (){
 
     if (found) {
       if (status.join('') === answer) {
-        alert ("Wow, you're something special, because you just won this game!");
+        setMessage ("Wow, you're something special, because you just won this game!");
         return true;
       }
     }
     else {
       tries--; // Only decreases with incorrect letters.
       if (tries === 0) {
-        alert ("Oh no, you will never get those 10 mins back.");
+        setMessage ("Oh no, you will never get those 10 mins back.");
       }
     }
     // updateMessage (found, status, tries, guessed)
