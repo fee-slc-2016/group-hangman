@@ -51,7 +51,7 @@ function makeGuess (){
   let msg = "yo what up!\nLet's play hangman\nYou have " + tries + " tries.\nPlease insert a letter.\n" + guess_status.join(" ");
 }
 
-makeGuess.onInput (guess) {
+makeGuess.onInput = function (guess) {
   // guess = prompt(msg);
   setMessage(msg);
 
@@ -78,7 +78,3 @@ makeGuess.onInput (guess) {
 // makeGuess.onInput();
 
 })();
-
-function ourOnClick (){
-
-}
