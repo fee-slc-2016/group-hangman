@@ -49,33 +49,36 @@ function makeGuess (){
   let guessed = [];
 
   let msg = "yo what up!\nLet's play hangman\nYou have " + tries + " tries.\nPlease insert a letter.\n" + guess_status.join(" ");
-
-  while (tries) {
-    // guess = prompt(msg);
-    setMessage(msg);
-
-    guessed.push(guess);
-    guessed.sort();
-
-    let {status, found} = updateStatus(answer, guess_status, guess);
-
-    if (found) {
-      if (status.join('') === answer) {
-        setMessage ("Wow, you're something special, because you just won this game!");
-        return true;
-      }
-    }
-    else {
-      tries--; // Only decreases with incorrect letters.
-      if (tries === 0) {
-        setMessage ("Oh no, you will never get those 10 mins back.");
-      }
-    }
-    // updateMessage (found, status, tries, guessed)
-    msg = updateMessage(found, guess_status, tries, guessed);
-  }
 }
 
-makeGuess();
+makeGuess.onInput (guess) {
+  // guess = prompt(msg);
+  setMessage(msg);
+
+  guessed.push(guess);
+  guessed.sort();
+
+  let {status, found} = updateStatus(answer, guess_status, guess);
+
+  if (found) {
+    if (status.join('') === answer) {
+      setMessage ("Wow, you're something special, because you just won this game!");
+      return true;
+    }
+  }
+  else {
+    tries--; // Only decreases with incorrect letters.
+    if (tries === 0) {
+      setMessage ("Oh no, you will never get those 10 mins back.");
+    }
+  }
+  // updateMessage (found, status, tries, guessed)
+  msg = updateMessage(found, guess_status, tries, guessed);
+}
+// makeGuess.onInput();
 
 })();
+
+function ourOnClick (){
+
+}
